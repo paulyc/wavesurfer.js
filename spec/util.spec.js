@@ -23,7 +23,6 @@ describe('util.fetchFile:', function() {
             // options
             expect(instance.fetchRequest.url).toEndWith(options.url);
             expect(instance.fetchRequest.cache).toEqual('default');
-            expect(instance.fetchRequest.credentials).toEqual('same-origin');
             expect(instance.fetchRequest.method).toEqual('GET');
             expect(instance.fetchRequest.mode).toEqual('cors');
 
@@ -203,16 +202,31 @@ describe('util:', function() {
         expect(WaveSurfer.util.max([])).toEqual(-Infinity);
     });
 
+    /** @test {absMax} */
+    it('absMax returns largest absolute number in the provided array when largest is positive', function() {
+        expect(WaveSurfer.util.absMax([0, 1, 1.1, 100, -1])).toEqual(100);
+    });
+
+    /** @test {absMax} */
+    it('absMax returns largest absolute number in the provided array when largest is negative', function() {
+        expect(WaveSurfer.util.absMax([0, 1, -101, 1.1, 100, -1])).toEqual(101);
+    });
+
+    /** @test {absMax} */
+    it('absMax returns -Infinity for an empty array', function() {
+        expect(WaveSurfer.util.absMax([])).toEqual(-Infinity);
+    });
+
     /** @test {style} */
     it('style applies a map of styles to an element', function() {
-        var el = {
+        let el = {
             style: {}
         };
-        var styles = {
+        let styles = {
             backgroundcolor: 'red',
             'background-color': 'blue'
         };
-        var result = {
+        let result = {
             style: styles
         };
         expect(WaveSurfer.util.style(el, styles)).toEqual(result);
