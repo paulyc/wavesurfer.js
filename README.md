@@ -1,152 +1,172 @@
-# [wavesurfer.js](https://wavesurfer-js.org)
+# <img src="https://user-images.githubusercontent.com/381895/226091100-f5567a28-7736-4d37-8f84-e08f297b7e1a.png" alt="logo" height="60" valign="middle" /> wavesurfer.js
 
-[![npm version](https://img.shields.io/npm/v/wavesurfer.js.svg?style=flat)](https://www.npmjs.com/package/wavesurfer.js)
-![npm](https://img.shields.io/npm/dm/wavesurfer.js.svg) [![Join the chat at https://gitter.im/katspaugh/wavesurfer.js](https://badges.gitter.im/katspaugh/wavesurfer.js.svg)](https://gitter.im/katspaugh/wavesurfer.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm](https://img.shields.io/npm/v/wavesurfer.js)](https://www.npmjs.com/package/wavesurfer.js) [![sponsor](https://img.shields.io/badge/sponsor_us-🤍-%23B14586)](https://github.com/sponsors/katspaugh)
 
-Interactive navigable audio visualization using Web Audio and Canvas.
+**Wavesurfer.js** is an interactive waveform rendering and audio playback library, perfect for web applications. It leverages modern web technologies to provide a robust and visually engaging audio experience.
 
-[![Screenshot](https://raw.githubusercontent.com/katspaugh/wavesurfer.js/gh-pages/example/screenshot.png "Screenshot")](https://wavesurfer-js.org)
+<img width="626" alt="waveform screenshot" src="https://github.com/katspaugh/wavesurfer.js/assets/381895/05f03bed-800e-4fa1-b09a-82a39a1c62ce">
 
-See a [tutorial](https://wavesurfer-js.org/docs) and [examples](https://wavesurfer-js.org/examples) on [wavesurfer-js.org](https://wavesurfer-js.org).
+**Gold sponsor 💖** [Closed Caption Creator](https://www.closedcaptioncreator.com)
 
-## Browser support
-wavesurfer.js works only in [modern browsers supporting Web Audio](http://caniuse.com/audio-api).
+# Table of contents
 
-It will fallback to Audio Element without graphics in other browsers (IE 11 and lower). You can also try [wavesurfer.swf](https://github.com/laurentvd/wavesurfer.swf) which is a Flash-based fallback.
+1. [Getting started](#getting-started)
+2. [API reference](#api-reference)
+3. [Plugins](#plugins)
+4. [CSS styling](#css-styling)
+5. [Frequent questions](#questions)
+6. [Development](#development)
+7. [Tests](#tests)
+8. [Feedback](#feedback)
 
-## FAQ
-### Can the audio start playing before the waveform is drawn?
-Yes, if you use the `backend: 'MediaElement'` option. See here: https://wavesurfer-js.org/example/audio-element/. The audio will start playing as you press play. A thin line will be displayed until the whole audio file is downloaded and decoded to draw the waveform.
+## Getting started
 
-### Can drawing be done as file loads?
-No. Web Audio needs the whole file to decode it in the browser. You can however load pre-decoded waveform data to draw the waveform immediately. See here: https://wavesurfer-js.org/example/audio-element/ (the "Pre-recoded Peaks" section).
+Install and import the package:
 
-## API in examples
-
-Choose a container:
-```html
-<div id="waveform"></div>
-```
-Create an instance, passing the container selector and [options](https://wavesurfer-js.org/docs/options.html):
-
-```javascript
-var wavesurfer = WaveSurfer.create({
-    container: '#waveform',
-    waveColor: 'violet',
-    progressColor: 'purple'
-});
-```
-
-Subscribe to some [events](https://wavesurfer-js.org/docs/events.html):
-
-```javascript
-wavesurfer.on('ready', function () {
-    wavesurfer.play();
-});
-```
-
-Load an audio file from a URL:
-
-```javascript
-wavesurfer.load('example/media/demo.wav');
-```
-
-## Documentation
-
-See the documentation on all available [methods](https://wavesurfer-js.org/docs/methods.html), [options](https://wavesurfer-js.org/docs/options.html) and [events](https://wavesurfer-js.org/docs/events.html) on the [homepage](https://wavesurfer-js.org/docs/).
-
-## Upgrade
-
-See the [upgrade](https://github.com/katspaugh/wavesurfer.js/blob/master/UPGRADE.md) document if you're upgrading from a previous version of wavesurfer.js.
-
-## Using with a module bundler
-
-Install Wavesurfer:
 ```bash
-npm install wavesurfer.js --save
-# or
-yarn add wavesurfer.js
+npm install --save wavesurfer.js
+```
+```js
+import WaveSurfer from 'wavesurfer.js'
 ```
 
-Use it with a module system like this:
-```javascript
-// import
-import WaveSurfer from 'wavesurfer.js';
-
-// commonjs/requirejs
-var WaveSurfer = require('wavesurfer.js');
-
-// amd
-define(['WaveSurfer'], function(WaveSurfer) {
-  // ... code
-});
-
+Alternatively, insert a UMD script tag which exports the library as a global `WaveSurfer` variable:
+```html
+<script src="https://unpkg.com/wavesurfer.js@7"></script>
 ```
 
-## Related projects
+Create a wavesurfer instance and pass various [options](http://wavesurfer.xyz/docs/options):
+```js
+const wavesurfer = WaveSurfer.create({
+  container: '#waveform',
+  waveColor: '#4F4A85',
+  progressColor: '#383351',
+  url: '/audio.mp3',
+})
+```
 
-For a list of  projects using wavesurfer.js, check out
-[the projects page](https://wavesurfer-js.org/projects/).
+To import one of the plugins, e.g. the [Regions plugin](https://wavesurfer.xyz/examples/?regions.js):
+```js
+import Regions from 'wavesurfer.js/dist/plugins/regions.esm.js'
+```
+
+Or as a script tag that will export `WaveSurfer.Regions`:
+```html
+<script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+```
+
+TypeScript types are included in the package, so there's no need to install `@types/wavesurfer.js`.
+
+See more [examples](https://wavesurfer.xyz/examples).
+
+## API reference
+
+See the wavesurfer.js documentation on our website:
+
+ * [methods](https://wavesurfer.xyz/docs/methods)
+ * [options](http://wavesurfer.xyz/docs/options)
+ * [events](http://wavesurfer.xyz/docs/events)
+
+## Plugins
+
+We maintain a number of official plugins that add various extra features:
+
+ * [Regions](https://wavesurfer.xyz/examples/?regions.js) – visual overlays and markers for regions of audio
+ * [Timeline](https://wavesurfer.xyz/examples/?timeline.js) – displays notches and time labels below the waveform
+ * [Minimap](https://wavesurfer.xyz/examples/?minimap.js) – a small waveform that serves as a scrollbar for the main waveform
+ * [Envelope](https://wavesurfer.xyz/examples/?envelope.js) – a graphical interface to add fade-in and -out effects and control volume
+ * [Record](https://wavesurfer.xyz/examples/?record.js) – records audio from the microphone and renders a waveform
+ * [Spectrogram](https://wavesurfer.xyz/examples/?spectrogram.js) – visualization of an audio frequency spectrum (written by @akreal)
+ * [Hover](https://wavesurfer.xyz/examples/?hover.js) – shows a vertical line and timestmap on waveform hover
+
+## CSS styling
+
+wavesurfer.js v7 is rendered into a Shadow DOM tree. This isolates its CSS from the rest of the web page.
+However, it's still possible to style various wavesurfer.js elements with CSS via the `::part()` pseudo-selector.
+For example:
+
+```css
+#waveform ::part(cursor):before {
+  content: '🏄';
+}
+#waveform ::part(region) {
+  font-family: fantasy;
+}
+```
+
+You can see which elements you can style in the DOM inspector – they will have a `part` attribute.
+See [this example](https://wavesurfer.xyz/examples/?styling.js) to play around with styling.
+
+## Questions
+
+Have a question about integrating wavesurfer.js on your website? Feel free to ask in our [Discussions forum](https://github.com/wavesurfer-js/wavesurfer.js/discussions/categories/q-a).
+
+However, please keep in mind that this forum is dedicated to wavesurfer-specific questions. If you're new to JavaScript and need help with the general basics like importing NPM modules, please consider asking ChatGPT or StackOverflow first.
+
+### FAQ
+
+<details>
+  <summary>I'm having CORS issues</summary>
+  Wavesurfer fetches audio from the URL you specify in order to decode it. Make sure this URL allows fetching data from your domain. In browser JavaScript, you can only fetch data eithetr from <b>the same domain</b> or another domain if and only if that domain enables <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a>. So if your audio file is on an external domain, make sure that domain sends the right Access-Control-Allow-Origin headers. There's nothing you can do about it from the requesting side (i.e. your JS code).
+</details>
+
+<details>
+  <summary>Does wavesurfer support large files?</summary>
+  Since wavesurfer decodes audio entirely in the browser using Web Audio, large clips may fail to decode due to memory constraints. We recommend using pre-decoded peaks for large files (see <a href="https://wavesurfer.xyz/examples/?predecoded.js">this example</a>). You can use a tool like <a href="https://github.com/bbc/audiowaveform">bbc/audiowaveform</a> to generate peaks.
+</details>
+
+<details>
+  <summary>What about streaming audio?</summary>
+  Streaming audio is supported only with <a href="https://wavesurfer.xyz/examples/?predecoded.js">pre-decoded peaks and duration</a>.
+</details>
+
+<details>
+  <summary>There is a mismatch between my audio and the waveform. How do I fix it?</summary>
+  If you're using a VBR (variable bit rate) audio file, there might be a mismatch between the audio and the waveform. This can be fixed by converting your file to CBR (constant bit rate).
+  <p>Alternatively, you can use the <a href="https://wavesurfer.xyz/examples/?webaudio-shim.js">Web Audio shim</a> which is more accurate.</p>
+</details>
+
+<details>
+  <summary>How do I connect wavesurfer.js to Web Audio effects?</summary>
+Generally, wavesurfer.js doesn't aim to be a wrapper for all things Web Audio. It's just a player with a waveform visualization. It does allow connecting itself to a Web Audio graph by exporting its audio element (see <a href="https://wavesurfer.xyz/examples/?4436ec40a2ab943243755e659ae32196">this example</a>) but nothign more than that. Please don't expect wavesurfer to be able to cut, add effects, or process your audio in any way.
+</details>
 
 ## Development
 
-[![Build Status](https://github.com/katspaugh/wavesurfer.js/workflows/wavesurfer.js/badge.svg?branch=master)](https://github.com/katspaugh/wavesurfer.js/actions?workflow=wavesurfer.js)
-[![Coverage Status](https://coveralls.io/repos/github/katspaugh/wavesurfer.js/badge.svg)](https://coveralls.io/github/katspaugh/wavesurfer.js)
-![Size](https://img.shields.io/bundlephobia/minzip/wavesurfer.js.svg?style=flat)
+To get started with development, follow these steps:
 
-Install development dependencies:
+ 1. Install dev dependencies:
 
 ```
-npm install
-```
-Development tasks automatically rebuild certain parts of the library when files are changed (`start` – wavesurfer, `start:plugins` – plugins). Start a dev task and go to `localhost:8080/example/` to test the current build.
-
-Start development server for core library:
-
-```
-npm run start
+yarn
 ```
 
-Start development server for plugins:
+ 2. Start the TypeScript compiler in watch mode and launch an HTTP server:
 
 ```
-npm run start:plugins
+yarn start
 ```
 
-Build all the files. (generated files are placed in the `dist` directory.)
+This command will open http://localhost:9090 in your browser with live reload, allowing you to see the changes as you develop.
 
-```
-npm run build
-```
+## Tests
 
-Running tests only:
+The tests are written in the Cypress framework. They are a mix of e2e and visual regression tests.
 
+To run the test suite locally, first build the project:
 ```
-npm run test
-```
-
-Build documentation with esdoc (generated files are placed in the `doc` directory.)
-```
-npm run doc
+yarn build
 ```
 
-If you want to use [the VS Code - Debugger for Chrome](https://github.com/Microsoft/vscode-chrome-debug), there is already a [launch.json](.vscode/launch.json) with a properly configured ``sourceMapPathOverrides`` for you.
+Then launch the tests:
+```
+yarn cypress
+```
 
-## Editing documentation
-The homepage and documentation files are maintained in the [`gh-pages` branch](https://github.com/katspaugh/wavesurfer.js/tree/gh-pages). Contributions to the documentation are especially welcome.
+## Feedback
 
-## Updating the NPM package
-When preparing a new release, update the version in the `package.json` and have it merged to master. The new version of the package will be published to NPM automatically via GitHub Actions.
+We appreciate your feedback and contributions!
 
-## Credits
+If you encounter any issues or have suggestions for improvements, please don't hesitate to post in our [forum](https://github.com/wavesurfer-js/wavesurfer.js/discussions/categories/q-a).
 
-The main maintainer: <img src="https://avatars.githubusercontent.com/u/305679" width="16" height="16" /> [Thijs Triemstra](https://github.com/thijstriemstra)
-
-Many thanks to [all the awesome contributors](https://github.com/katspaugh/wavesurfer.js/contributors)!
-
-## License
-
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-
-This work is licensed under a
-[BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause).
+We hope you enjoy using wavesurfer.js and look forward to hearing about your experiences with the library!

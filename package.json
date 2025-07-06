@@ -1,105 +1,93 @@
 {
   "name": "wavesurfer.js",
-  "version": "4.6.0",
-  "description": "Interactive navigable audio visualization using Web Audio and Canvas",
-  "main": "dist/wavesurfer.js",
-  "directories": {
-    "example": "example"
-  },
-  "files": [
-    "dist/",
-    "src/"
-  ],
-  "scripts": {
-    "start": "npm run build:plugins && npm run build:htmlinit && webpack serve --config ./build-config/webpack.dev.main.js",
-    "start:htmlinit": "npm run build:main && npm run build:plugins && webpack serve --config ./build-config/webpack.dev.htmlinit.js",
-    "start:plugins": "npm run build:main && npm run build:htmlinit && webpack serve --config ./build-config/webpack.dev.plugins.js",
-    "build": "npm run build:normal && npm run build:minified",
-    "build:main": "webpack --config ./build-config/webpack.prod.main.js",
-    "build:main:min": "webpack --config ./build-config/webpack.prod.main.min.js",
-    "build:plugins": "webpack --config ./build-config/webpack.prod.plugins.js",
-    "build:plugins:min": "webpack --config ./build-config/webpack.prod.plugins.min.js",
-    "build:htmlinit": "webpack --config ./build-config/webpack.prod.htmlinit.js",
-    "build:htmlinit:min": "webpack --config ./build-config/webpack.prod.htmlinit.min.js",
-    "build:normal": "npm run build:main && npm run build:plugins && npm run build:htmlinit",
-    "build:minified": "npm run build:main:min && npm run build:plugins:min && npm run build:htmlinit:min",
-    "lint": "npm run lint:js && npm run lint:html",
-    "lint:js": "eslint src example spec",
-    "lint:html": "htmlhint example",
-    "lint-js-html": "lint-staged",
-    "doc": "esdoc",
-    "test": "karma start karma.conf.js",
-    "prepublishOnly": "not-in-install && npm run build || in-install",
-    "prepare": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/katspaugh/wavesurfer.js.git"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "author": "",
+  "version": "7.9.9",
   "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/katspaugh/wavesurfer.js/issues"
-  },
+  "author": "katspaugh",
+  "description": "Audio waveform player",
+  "homepage": "https://wavesurfer.xyz",
   "keywords": [
     "waveform",
+    "spectrogram",
     "audio",
-    "music",
     "player",
-    "webaudio",
-    "microphone",
-    "visualization"
+    "music",
+    "linguistics"
   ],
-  "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@babel/preset-env": "^7.13.9",
-    "@babel/register": "^7.13.8",
-    "@chiragrupani/karma-chromium-edge-launcher": "^2.1.0",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.2",
-    "babel-plugin-add-module-exports": "^1.0.4",
-    "babel-plugin-istanbul": "^6.0.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "date-fns": "^2.18.0",
-    "debounce": "^1.2.0",
-    "esdoc": "^1.1.0",
-    "esdoc-accessor-plugin": "^1.0.0",
-    "esdoc-brand-plugin": "^1.0.1",
-    "esdoc-coverage-plugin": "^1.1.0",
-    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
-    "esdoc-integrate-test-plugin": "^1.0.0",
-    "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^7.21.0",
-    "htmlhint": "^0.14.2",
-    "in-publish": "^2.0.1",
-    "jasmine-core": "^3.6.0",
-    "karma": "^5.2.3",
-    "karma-chrome-launcher": "3.1.0",
-    "karma-coverage": "^2.0.3",
-    "karma-firefox-launcher": "^2.1.0",
-    "karma-jasmine": "4.0.1",
-    "karma-jasmine-matchers": "4.0.2",
-    "karma-verbose-reporter": "0.0.6",
-    "karma-webpack": "^5.0.0",
-    "lint-staged": "^10.5.4",
-    "load-script": "^1.0.0",
-    "pre-commit": "^1.2.2",
-    "webpack": "^5.24.3",
-    "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^4.0.0-beta.0",
-    "webpack-merge": "^5.7.3"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:katspaugh/wavesurfer.js.git"
   },
-  "homepage": "https://wavesurfer-js.org",
-  "pre-commit": "lint-js-html",
-  "lint-staged": {
-    "*.js": [
-      "eslint"
-    ],
-    "*.html": [
-      "htmlhint"
-    ]
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/wavesurfer.js",
+  "unpkg": "./dist/wavesurfer.min.js",
+  "module": "./dist/wavesurfer.js",
+  "browser": "./dist/wavesurfer.js",
+  "types": "./dist/wavesurfer.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/wavesurfer.esm.js",
+      "types": "./dist/wavesurfer.d.ts",
+      "require": "./dist/wavesurfer.cjs"
+    },
+    "./dist/plugins/*.js": {
+      "import": "./dist/plugins/*.esm.js",
+      "types": "./dist/plugins/*.d.ts",
+      "require": "./dist/plugins/*.cjs"
+    },
+    "./plugins/*": {
+      "import": "./dist/plugins/*.esm.js",
+      "types": "./dist/plugins/*.d.ts",
+      "require": "./dist/plugins/*.cjs"
+    },
+    "./dist/*": {
+      "import": "./dist/*",
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.cjs"
+    },
+    "./dist/plugins/*.esm.js": {
+      "import": "./dist/plugins/*.esm.js",
+      "types": "./dist/plugins/*.d.ts",
+      "require": "./dist/plugins/*.cjs"
+    }
+  },
+  "scripts": {
+    "clean": "node ./scripts/clean.cjs",
+    "build:dev": "tsc -w --target ESNext",
+    "build": "npm run clean && tsc && rollup -c",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint \"src/**/*.ts\" --fix",
+    "lint:report": "eslint \"src/**/*.ts\" --output-file eslint_report.json --format json",
+    "prettier": "prettier -w '**/*.{js,ts,css}' --ignore-path .gitignore",
+    "make-plugin": "./scripts/plugin.sh",
+    "cypress": "cypress open --e2e",
+    "cypress:canary": "cypress open --e2e -b chrome:canary",
+    "test": "cypress run --browser chrome",
+    "test:unit": "jest --coverage",
+    "serve": "npx live-server --port=9090 --no-browser --ignore='.*,src,cypress,scripts'",
+    "start": "npm run build:dev & npm run serve"
+  },
+  "packageManager": "yarn@1.22.22",
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "cypress": "^13.16.1",
+    "cypress-image-snapshot": "^4.0.1",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "glob": "^11.0.0",
+    "prettier": "^3.4.2",
+    "rollup": "^4.28.1",
+    "rollup-plugin-dts": "^6.1.0",
+    "typescript": "^5.7.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "@types/jest": "^29.5.2",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }
